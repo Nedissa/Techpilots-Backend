@@ -1,4 +1,3 @@
-import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { useEffect, useState } from "react"
 
 interface Complaint {
@@ -54,8 +53,8 @@ const ComplaintsWidget = ({ data }: any) => {
   )
 }
 
-export const config = defineWidgetConfig({
-  zone: "customer.details.before",
-})
+export const config = {
+  zone: "customer.details.after",
+}
 
 export default ComplaintsWidget
