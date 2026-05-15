@@ -10,10 +10,26 @@ interface Complaint {
   status: string
 }
 
-const ComplaintsWidget = () => {
+const ComplaintsWidget = ({ data }: any) => {
   const [complaints, setComplaints] = useState<Complaint[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Widget är aktiverad - visar felanmälningar från denna kund
+  useEffect(() => {
+    if (!data?.id) return
+
+    fetch(`/admin/complaints?customer_id=${data.id}`)
+      .then(res => res.json())
+      .then(data => {
+        setComplaints(data.complaints || [])
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Failed to load complaints:', err)
+        setLoading(false)
+      })
+  }, [data?.id])
+
+  if (loading) return <div className="p-4">Laddar felanmälningar...</div>
 
   return (
     <div className="p-4 bg-white border rounded">
@@ -39,7 +55,7 @@ const ComplaintsWidget = () => {
 }
 
 export const config = defineWidgetConfig({
-  zone: "customer.details.after",
+  zone: "customer.details.before",
 })
 
 export default ComplaintsWidget
