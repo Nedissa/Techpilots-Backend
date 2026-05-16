@@ -1,3 +1,4 @@
+import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { useEffect, useState } from "react"
 
 interface Complaint {
@@ -28,22 +29,23 @@ const ComplaintsWidget = ({ data }: any) => {
       })
   }, [data?.id])
 
-  if (loading) return <div className="p-4">Laddar felanmälningar...</div>
-
   return (
-    <div className="p-4 bg-white border rounded">
-      <h3 className="text-lg font-semibold mb-4">Felanmälningar</h3>
+    <div className="border border-blue-500/50 rounded p-6" style={{ backgroundColor: 'rgb(33, 33, 36)' }}>
+      <h2 className="text-base font-semibold mb-6">Issue Reports</h2>
 
       {complaints.length === 0 ? (
-        <p className="text-gray-500">Inga felanmälningar</p>
+        <div className="flex flex-col items-center justify-center py-12">
+          <p className="text-gray-300 font-medium">No issue reports</p>
+          <p className="text-gray-500 text-sm mt-1">There are no issue reports to show</p>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {complaints.map(complaint => (
-            <div key={complaint.id} className="p-3 border rounded bg-gray-50">
-              <p className="font-semibold text-sm">Beställning: {complaint.order_number}</p>
-              <p className="text-sm text-gray-700 mt-1">{complaint.description}</p>
+            <div key={complaint.id} className="p-3 border border-gray-700 rounded">
+              <p className="text-sm font-medium">Order: {complaint.order_number}</p>
+              <p className="text-sm text-gray-400 mt-1">{complaint.description}</p>
               <p className="text-xs text-gray-500 mt-2">
-                {new Date(complaint.created_at).toLocaleDateString('sv-SE')}
+                {new Date(complaint.created_at).toLocaleDateString('en-US')}
               </p>
             </div>
           ))}
@@ -53,8 +55,8 @@ const ComplaintsWidget = ({ data }: any) => {
   )
 }
 
-export const config = {
+export const config = defineWidgetConfig({
   zone: "customer.details.after",
-}
+})
 
 export default ComplaintsWidget
