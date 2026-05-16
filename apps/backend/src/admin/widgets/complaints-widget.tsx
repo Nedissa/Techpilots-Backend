@@ -1,11 +1,23 @@
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
 
 const ComplaintsWidget = ({ data }: any) => {
+  // Debug: check what data contains
+  console.log("Widget data:", data)
+  console.log("Widget metadata:", data?.metadata)
+
   const complaints = data?.metadata?.complaints || []
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm mt-4">
       <h2 className="text-xl font-semibold mb-4">Felanmälningar</h2>
+
+      {/* Debug output */}
+      {complaints.length === 0 && (
+        <div className="text-xs text-gray-400 mb-4">
+          <p>Complaints array: {JSON.stringify(complaints)}</p>
+          <p>Data keys: {Object.keys(data || {}).join(", ")}</p>
+        </div>
+      )}
 
       {complaints.length === 0 ? (
         <p className="text-gray-500">Inga felanmälningar registrerade på denna kund.</p>
