@@ -12,7 +12,7 @@ const ComplaintsWidget = ({ data }: any) => {
     }
 
     // Fetch customer data directly from API to get metadata
-    fetch(`/admin/customers/${data.id}`)
+    fetch(`/admin/api/customers/${data.id}`)
       .then(res => res.json())
       .then(result => {
         const complaintsList = result.customer?.metadata?.complaints || []
